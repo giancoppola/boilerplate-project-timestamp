@@ -24,8 +24,10 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+// api date endpoint
 app.get("/api/:date?", (req, res) => {
   let query = req.params.date;
+  console.log(query);
   let date;
   if (!query){
     date = new Date();
@@ -35,7 +37,7 @@ app.get("/api/:date?", (req, res) => {
     })
   }
   else{
-    date = new Date(parseInt(query));
+    query.includes("-") || query.includes(" ") ? date = new Date(query) : date = new Date(parseInt(query));
     if (date != "Invalid Date"){
       res.json({
         "unix": date.getTime(),
