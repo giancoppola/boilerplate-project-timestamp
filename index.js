@@ -27,26 +27,26 @@ app.get("/api/hello", function (req, res) {
 app.get("/api/:date?", (req, res) => {
   let query = req.params.date;
   let date;
-  try{
-    date = new Date(query);
-  }
-  catch(e){
-    res.json({
-      error: "Invalid Date"
-    })
-  }
-  if (query == "" || query == null){
+  if (!query){
     date = new Date();
     res.json({
-      unix: Date.now,
-      utc: date.toUTCString
+      "unix": Date.now(),
+      "utc": date.toUTCString()
     })
   }
-  if (date){
-    res.json({
-      unix: Math.floor(date.getTime() / 1000),
-      utc: date.toUTCString
-    })
+  else{
+    date = new Date(parseInt(query));
+    if (date != "Invalid Date"){
+      res.json({
+        "unix": date.getTime(),
+        "utc": date.toUTCString(),
+      })
+    }
+    else{
+      res.json({
+        "error": date.toString()
+      })
+    }
   }
 })
 
